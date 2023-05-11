@@ -12,13 +12,14 @@
                 <form action="" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form | crispy }}
-                    
                     <input class="btn btn-lg btn-success" type="submit" value="Enviar">
                 </form>
             </div>
             
         </div>
+        
     </div>
-    {% endblock header %}
+    
+{% endblock header %}
       
     

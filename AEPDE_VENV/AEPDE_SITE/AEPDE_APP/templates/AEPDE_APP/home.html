@@ -7,22 +7,26 @@
             <div class="row">
                 
                     {% for x in producto %}
-                    <div class="col mt-4">
+                <div class="col mt-4">
                     <div class="card mb-2">
+                        <div class="card-title">
+                            <p>Producto subido por <a href="#">{{user.username}}</a></p>
+                        </div>
                         <div class="card-body">
                             <div class="fit-content">
                                 <img  class="mb-2" src="{{x.imagen.url}}" alt="Foto producto" height="150" width="200">
                             </div>
-                            <p>Codigo:&nbsp;{{x.codigo}}</p>
                             <p>Descripcion:&nbsp;{{x.descripcion}}</p>
-                            <p>Tipo:&nbsp;{{x.tipo}}</p>
+                            <p>Tipo:&nbsp;{{x.get_tipo_display}}</p>
                             <p>Precio/kg:&nbsp;{{x.precio}}</p>
-                            <p>Stock:&nbsp;{{x.stock}}</p>    
+                            <p>Stock:&nbsp;{{x.stock}}</p> 
+                            <p>Productor: &nbsp;{{x.cod_productor}}</p>   
                             <p>Fecha de produccion:&nbsp;{{x.fecha_produccion}}</p>
-                            <p>Fecha de vencimiento:&nbsp;{{x.fecha_vencimiento_prod}}</p>                      
+                            <p>Fecha de vencimiento:&nbsp;{{x.fecha_vencimiento_prod}}</p>
+                                            
                         </div>
                            
-                </div>
+                    </div>
             </div>
                 {% endfor %}
                 

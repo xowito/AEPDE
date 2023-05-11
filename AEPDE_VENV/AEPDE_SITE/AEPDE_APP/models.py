@@ -7,6 +7,16 @@ class Sucursal(models.Model):
     nombre = models.CharField(max_length=500)
     def __str__(self):
 	    return self.nombre + '-'+ self.direccion
+ 
+class Productor(models.Model):
+    cod_productor = models.CharField(primary_key=True,max_length=9)
+    nombre_empresa = models.CharField(max_length=500)
+    telefono_contacto = models.CharField(max_length=8)
+    correo_contacto = models.CharField(max_length=50)
+    def __str__(self):
+        return self.nombre_empresa
+
+
 class Producto(models.Model):
     tipo_producto = [
         ('1','Frutas'),
@@ -22,12 +32,11 @@ class Producto(models.Model):
     fecha_produccion = models.DateTimeField(auto_now_add=True)
     fecha_vencimiento_prod = models.DateTimeField(auto_now=True)
     sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE)
+    cod_productor = models.ForeignKey(Productor, on_delete=models.CASCADE)
     def __str__(self):
 	    return self.codigo
 class Meta:
     ordering = ["precio"]
     
-class Productor(models.Model):
-    cod_productor = models.CharField(primary_key=True,max_length=9)
-    nombre_empresa = models.CharField(max_length=500)
-    
+
+     
