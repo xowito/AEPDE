@@ -2,22 +2,27 @@ from django.db import models
 
 # Create your models here.
 class Sucursal(models.Model):
-    cod_sucursal = models.CharField(primary_key=True,max_length=25)
+    cod_sucursal = models.IntegerField(primary_key=True)
     direccion = models.CharField(max_length=500)
     nombre = models.CharField(max_length=500)
     def __str__(self):
 	    return self.nombre + '-'+ self.direccion
  
 class Productor(models.Model):
-    cod_productor = models.CharField(primary_key=True,max_length=9)
+    cod_productor = models.IntegerField(primary_key=True)
     nombre_empresa = models.CharField(max_length=500)
-    telefono_contacto = models.CharField(max_length=8)
+    telefono_contacto = models.IntegerField()
     correo_contacto = models.CharField(max_length=50)
     def __str__(self):
         return self.nombre_empresa
 
 
+contacto_productor = [
+    ('1',Productor.correo_contacto)
+    ]
+print (contacto_productor)
 class Producto(models.Model):
+    
     tipo_producto = [
         ('1','Frutas'),
         ('2','Verduras'),
