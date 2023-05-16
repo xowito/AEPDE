@@ -1,0 +1,28 @@
+{% extends 'AEPDE_APP/base.html' %}
+{% load static %}
+{% block header %}
+ 
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-body">
+            <p>Descripcion:&nbsp;{{obj.descripcion}}</p>
+            <p>Tipo:&nbsp;{{obj.get_tipo_display}}</p>
+            <p>Precio/kg:&nbsp;{{obj.precio}}</p>
+            <p>Stock:&nbsp;{{obj.stock}}</p>   
+            <p>Fecha de produccion:&nbsp;{{obj.fecha_produccion}}</p>
+            <p>Fecha de vencimiento:&nbsp;{{obj.fecha_vencimiento_prod}}</p>
+        </div>
+    </div>
+</div>
+ 
+ 
+ 
+ 
+{% endblock header %}
+
+
+
+
+
+
+ 

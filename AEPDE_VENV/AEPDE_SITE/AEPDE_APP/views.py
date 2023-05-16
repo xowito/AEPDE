@@ -20,6 +20,10 @@ def home(request):
     }
     return render(request,"AEPDE_APP/home.html",data)
 
+def detalle_producto(request,id):
+    detalle = Producto.objects.get(codigo=id)
+    data = {"obj":detalle}
+    return render(request,'AEPDE_APP/detalle_producto.html',data)
 
 def agregar_productos(request):
     formulario = formulario_agregar_producto()
