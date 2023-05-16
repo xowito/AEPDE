@@ -8,5 +8,7 @@ urlpatterns = [
     path('login',login_request, name="login"),
     path('logout',logout_request,name="logout"),
     path('catalogo_productor',catalogo_productor,name="catalogo_productor"),
-    path('detalle_producto/<id>',detalle_producto,name="detalle_producto")
+    path('detalle_producto/<id>',detalle_producto,name="detalle_producto"),
+    path('agregar_favorito/<int:id>/', agregar_favorito, name='agregar_favorito'),
+    
 ]

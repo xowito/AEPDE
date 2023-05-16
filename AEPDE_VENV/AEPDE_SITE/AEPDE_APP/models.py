@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.urls import reverse
 # Create your models here.
 class Sucursal(models.Model):
     cod_sucursal = models.IntegerField(primary_key=True)
@@ -42,6 +43,26 @@ class Producto(models.Model):
 	    return self.codigo
 class Meta:
     ordering = ["precio"]
+
+
+class Favorito(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user.username} favorited {self.producto.descripcion}'
+
+    def get_absolute_url(self):
+        return reverse('detalle_producto', args=[str(self.producto.codigo)])
+    
+
+    
+    
+    
+     
+          
+
     
 
      

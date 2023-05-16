@@ -1,12 +1,16 @@
-from django.http import HttpRequest
+from django.http import HttpRequest ,HttpResponseRedirect
 from django.shortcuts import render,  redirect, get_object_or_404
 from .forms import formulario_agregar_producto
-from .models import Producto,Productor
+from .models import Producto,Productor,Favorito
 from .forms import NewUserForm
 from django.contrib.auth import login, authenticate,logout, get_user
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.db.models import Q
+from django.shortcuts import  redirect
+from django.contrib.auth.decorators import login_required
+
+
 #Vista home
 
 def home(request):
@@ -21,8 +25,11 @@ def home(request):
     return render(request,"AEPDE_APP/home.html",data)
 
 def detalle_producto(request,id):
+    
     detalle = Producto.objects.get(codigo=id)
-    data = {"obj":detalle}
+    productor = detalle.cod_productor
+    sucursal = detalle.sucursal
+    data = {"obj":detalle,"productor": productor,"sucursal":sucursal,}
     return render(request,'AEPDE_APP/detalle_producto.html',data)
 
 def agregar_productos(request):
@@ -82,3 +89,13 @@ def catalogo_productor(request):
         "producto":p 
     }	
 	return render(request, "AEPDE_APP/catalogo_productor.html",data)
+
+@login_required
+def agregar_favorito(request, id):
+    producto = get_object_or_404(Producto, codigo=id)
+    favorito, created = Favorito.objects.get_or_create(user=request.user, producto=producto)
+    if created:
+        messages.success(request, f"{producto.descripcion} se ha agregado a tus favoritos.")
+    else:
+        messages.warning(request, f"{producto.descripcion} ya está en tus favoritos.")
+    return redirect('detalle_producto', id=id)

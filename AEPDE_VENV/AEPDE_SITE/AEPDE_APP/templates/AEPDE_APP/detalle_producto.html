@@ -11,6 +11,17 @@
             <p>Stock:&nbsp;{{obj.stock}}</p>   
             <p>Fecha de produccion:&nbsp;{{obj.fecha_produccion}}</p>
             <p>Fecha de vencimiento:&nbsp;{{obj.fecha_vencimiento_prod}}</p>
+            <p>Correo contacto:&nbsp;{{ productor.correo_contacto }}</p>
+            <p>Telefono contacto:&nbsp;{{ productor.telefono_contacto }}</p>
+            <p>Ubicación:&nbsp;{{ sucursal.direccion }}</p>
+            {% if request.user.is_authenticated %}
+            <form method="post" action="{% url 'agregar_favorito' obj.codigo %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Agregar a favoritos</button>
+            </form>
+            {% endif %}
+            
+        
         </div>
     </div>
 </div>
