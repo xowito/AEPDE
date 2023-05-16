@@ -1,7 +1,7 @@
 from django.http import HttpRequest ,HttpResponseRedirect
 from django.shortcuts import render,  redirect, get_object_or_404
 from .forms import formulario_agregar_producto
-from .models import Producto,Productor,Favorito
+from .models import Producto, Productor, Favorito, Carrito ,ItemCarrito
 from .forms import NewUserForm
 from django.contrib.auth import login, authenticate,logout, get_user
 from django.contrib.auth.forms import AuthenticationForm
@@ -99,3 +99,26 @@ def agregar_favorito(request, id):
     else:
         messages.warning(request, f"{producto.descripcion} ya está en tus favoritos.")
     return redirect('detalle_producto', id=id)
+
+
+@login_required
+def agregar_al_carrito(request):
+    if request.method == 'POST':
+        producto_id = request.POST.get('producto_id')
+        cantidad = int(request.POST.get('cantidad', 1))
+        producto = get_object_or_404(Producto, codigo=producto_id)
+        
+        # Restar del stock del producto
+        producto.stock -= cantidad
+        producto.save()
+        
+        carrito, created = Carrito.objects.get_or_create(usuario=request.user, activo=True)
+        if created:
+            carrito.save()
+        item, item_created = ItemCarrito.objects.get_or_create(carrito=carrito, producto=producto)
+        if not item_created:
+            item.cantidad += cantidad
+            item.save()
+        
+        messages.success(request, f"{cantidad} x {producto.descripcion} agregado al carrito.")
+    return redirect('detalle_producto', id=producto_id)

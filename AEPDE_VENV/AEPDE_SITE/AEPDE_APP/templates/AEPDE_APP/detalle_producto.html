@@ -20,6 +20,14 @@
                 <button type="submit" class="btn btn-primary">Agregar a favoritos</button>
             </form>
             {% endif %}
+
+            <form method="POST" action="{% url 'agregar_al_carrito' %}">
+                {% csrf_token %}
+                <input type="hidden" name="producto_id" value="{{ obj.codigo }}">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" name="cantidad" value="1" min="1">
+                <button type="submit">Agregar al carrito</button>
+            </form>
             
         
         </div>

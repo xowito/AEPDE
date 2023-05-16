@@ -56,9 +56,22 @@ class Favorito(models.Model):
     def get_absolute_url(self):
         return reverse('detalle_producto', args=[str(self.producto.codigo)])
     
+class Carrito(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+    activo = models.BooleanField(default=True)
 
-    
-    
+    def __str__(self):
+        return f"Carrito del usuario {self.usuario.username}"
+
+class ItemCarrito(models.Model):
+    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.IntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.cantidad} x {self.producto.descripcion} en el carrito de {self.carrito.usuario.username}"
     
      
           
