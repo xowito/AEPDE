@@ -1,0 +1,15 @@
+nav{
+    background-color: #d9f4c9;
+}
+body{
+    background-color: #92b77d;
+}
+
+a{
+    color: #7f7f7f;
+    font-weight: bold;
+}
+
+a:hover{
+    color:#f7c357
+}
