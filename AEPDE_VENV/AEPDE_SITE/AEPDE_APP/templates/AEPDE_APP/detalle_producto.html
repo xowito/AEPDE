@@ -5,7 +5,12 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
-            <p>Descripcion:&nbsp;{{obj.descripcion}}</p>
+            <div class="d-flex-justify-content-between">
+                <p>Descripcion:&nbsp;{{obj.descripcion}}</p>
+            </div>
+            <div class="ml-auto">
+                <img src="{{obj.imagen.url}}" alt="" width="50%" height="50%">
+            </div>
             <p>Tipo:&nbsp;{{obj.get_tipo_display}}</p>
             <p>Precio/kg:&nbsp;{{obj.precio}}</p>
             <p>Stock:&nbsp;{{obj.stock}}</p>   
@@ -14,19 +19,21 @@
             <p>Correo contacto:&nbsp;{{ productor.correo_contacto }}</p>
             <p>Telefono contacto:&nbsp;{{ productor.telefono_contacto }}</p>
             <p>Ubicación:&nbsp;{{ sucursal.direccion }}</p>
+            
+            
             {% if request.user.is_authenticated %}
             <form method="post" action="{% url 'agregar_favorito' obj.codigo %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Agregar a favoritos</button>
+                <button type="submit" class="btn btn-primary"> <i class="zmdi zmdi-favorite-outline"></i> Agregar a favoritos</button>
             </form>
             {% endif %}
 
             <form method="POST" action="{% url 'agregar_al_carrito' %}">
                 {% csrf_token %}
                 <input type="hidden" name="producto_id" value="{{ obj.codigo }}">
-                <label for="cantidad">Cantidad:</label>
-                <input type="number" name="cantidad" value="1" min="1">
-                <button type="submit">Agregar al carrito</button>
+                <label for="cantidad" class="mt-5" >Cantidad:</label>
+                <input class="input-lg" type="number" name="cantidad" value="1" min="1" style="height: 53px;">
+                <button type="submit" class="btn btn-primary">Agregar al carrito</button>
             </form>
             
         

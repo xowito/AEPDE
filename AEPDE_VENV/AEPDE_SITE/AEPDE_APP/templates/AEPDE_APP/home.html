@@ -3,6 +3,13 @@
 
 
 {% block header %}
+<div class="banner banner-cover">
+    <div class="banner-container ">
+
+        <h1 class="title-cover">CATÁLOGO</h1>
+        <a href={% url 'register' %} class="btn btn-default">Registrate aquí</a>
+    </div>
+</div>
         <div class="container">
             <div class="row">
                 
@@ -22,7 +29,7 @@
                             <p>Stock:&nbsp;{{x.stock}}</p>   
                             <p>Fecha de produccion:&nbsp;{{x.fecha_produccion}}</p>
                             <p>Fecha de vencimiento:&nbsp;{{x.fecha_vencimiento_prod}}</p>
-                            <a href={% url 'detalle_producto' x.codigo %}>Detalle producto</a>                  
+                            <a class="btn btn-primary" href={% url 'detalle_producto' x.codigo %}>Detalle producto</a>                  
                         </div>
                            
                     </div>
