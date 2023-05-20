@@ -41,8 +41,9 @@
             <li class="navbar-top-item">
               {% if user.is_authenticated %}
                 <a class="navbar-top-links" href={% url 'agregar_productos' %}><i class="zmdi zmdi-plus-circle-o"></i> Agregar productos</a>
-
+                
             </li>
+            <li class="navbar-top-items"><a class="navbar-top-links" href={% url 'agregar_tarifa' %}><i class="zmdi zmdi-plus-circle-o"></i> Agregar tarifa</a></li>
             <li class="navbar-top-item">
               <a class="navbar-top-links" href={% url 'catalogo_productor' %}><i class="zmdi zmdi-eye"></i> Ver mi catalogo</a>
             </li>

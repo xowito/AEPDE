@@ -73,7 +73,25 @@ class ItemCarrito(models.Model):
     def __str__(self):
         return f"{self.cantidad} x {self.producto.descripcion} en el carrito de {self.carrito.usuario.username}"
     
+class Transportista(models.Model):
+    codigo_transportista = models.IntegerField(primary_key=True)
+    nombre = models.CharField(max_length=200)
+    def __str__(self):
+        return f"{self.codigo_transportista} - {self.nombre}"
+    
      
+class Tarifa(models.Model):
+    categoria = models.CharField(max_length=50)
+    monto = models.IntegerField(default=1)
+    codigo_transportista = models.ForeignKey(Transportista, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.categoria} - {self.monto}"
+    class Meta:
+        permissions = [
+            ("puede_acceder_url","Puede acceder a la URL")
+        ]
+    
+    
           
 
     

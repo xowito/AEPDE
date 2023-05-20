@@ -22,3 +22,9 @@ class NewUserForm(UserCreationForm):
 		if commit:
 			user.save()
 		return user
+
+
+class formulario_agregar_tarifa(forms.ModelForm):
+    class Meta:
+        model = Tarifa
+        fields = '__all__'

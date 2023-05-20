@@ -1,6 +1,6 @@
 from django.http import HttpRequest ,HttpResponseRedirect
 from django.shortcuts import render,  redirect, get_object_or_404
-from .forms import formulario_agregar_producto
+from .forms import formulario_agregar_producto,formulario_agregar_tarifa
 from .models import Producto, Productor, Favorito, Carrito ,ItemCarrito
 from .forms import NewUserForm
 from django.contrib.auth import login, authenticate,logout, get_user
@@ -8,16 +8,18 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import  redirect
-from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import Permission
 
 #Vista home
 
 def home(request):
+    add_tarifa_permission = Permission.objects.get(codename='add_tarifa')
     pr = Productor.objects.all()
     p = Producto.objects.all()
     a = request.user.id
     data = {
+        "add_tarifa_permission":add_tarifa_permission,
         "producto": p,
         "productor":pr,
         "as":a 
@@ -31,7 +33,7 @@ def detalle_producto(request,id):
     sucursal = detalle.sucursal
     data = {"obj":detalle,"productor": productor,"sucursal":sucursal,}
     return render(request,'AEPDE_APP/detalle_producto.html',data)
-
+@login_required
 def agregar_productos(request):
     formulario = formulario_agregar_producto()
     data={"form":formulario}
@@ -122,3 +124,16 @@ def agregar_al_carrito(request):
         
         messages.success(request, f"{cantidad} x {producto.descripcion} agregado al carrito.")
     return redirect('detalle_producto', id=producto_id)
+
+@login_required
+@permission_required('AEPDE_APP.add_tarifa', raise_exception=True)
+def agregar_tarifa(request):
+    formulario = formulario_agregar_tarifa()
+    data={"form":formulario}
+    if request.method == 'POST':
+        formulario = formulario_agregar_tarifa(request.POST, request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, "Tarifa agregada correctamente")
+            return redirect(to="home")
+    return render(request,"AEPDE_APP/agregar_tarifa.html",data)
