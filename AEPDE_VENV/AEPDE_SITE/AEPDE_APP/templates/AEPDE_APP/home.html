@@ -5,15 +5,13 @@
 {% block header %}
 <div class="banner banner-cover">
     <div class="banner-container ">
-
         <h1 class="title-cover">CATÁLOGO</h1>
         <a href={% url 'register' %} class="btn btn-default">Registrate aquí</a>
     </div>
 </div>
         <div class="container">
             <div class="row">
-                
-                    {% for x in producto %}
+                {% for x in producto %}
                 <div class="col mt-4">
                     <div class="card mb-2">
                         <div class="card-title">
@@ -25,16 +23,24 @@
                             </div>
                             <p>Descripcion:&nbsp;{{x.descripcion}}</p>
                             <p>Tipo:&nbsp;{{x.get_tipo_display}}</p>
+                            {% for oferta in x.oferta_set.all %}
+                            {% if forloop.last %}
+                            <p>Precio Oferta: {{ oferta.precio_oferta }}</p>
+                            <p>valido hasta: {{ oferta.fecha_fin }}</p>
+                            {% endif %}
+                            {% endfor %} 
                             <p>Precio/kg:&nbsp;{{x.precio}}</p>
                             <p>Stock:&nbsp;{{x.stock}}</p>   
                             <p>Fecha de produccion:&nbsp;{{x.fecha_produccion}}</p>
                             <p>Fecha de vencimiento:&nbsp;{{x.fecha_vencimiento_prod}}</p>
-                            <a class="btn btn-primary" href={% url 'detalle_producto' x.codigo %}>Detalle producto</a>                  
+                            <a class="btn btn-primary" href={% url 'detalle_producto' x.codigo %}>Detalle producto</a>
+                            <a class="btn btn-primary" href={% url 'crear_oferta' x.codigo %}>Publicar oferta</a>
+                                           
                         </div>
                            
                     </div>
             </div>
-                {% endfor %}
+            {% endfor %}
                 
                     
             </div>

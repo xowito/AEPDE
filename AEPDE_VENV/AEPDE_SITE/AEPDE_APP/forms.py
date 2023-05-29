@@ -28,3 +28,8 @@ class formulario_agregar_tarifa(forms.ModelForm):
     class Meta:
         model = Tarifa
         fields = '__all__'
+        
+class formulario_crear_oferta(forms.ModelForm):
+    class Meta:
+        model = Oferta
+        fields = '__all__'

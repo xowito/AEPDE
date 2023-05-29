@@ -40,9 +40,8 @@ class Producto(models.Model):
     sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE)
     cod_productor = models.ForeignKey(Productor, on_delete=models.CASCADE)
     def __str__(self):
-	    return self.codigo
-class Meta:
-    ordering = ["precio"]
+	    return str(self.codigo)
+
 
 
 class Favorito(models.Model):
@@ -92,7 +91,17 @@ class Tarifa(models.Model):
         ]
     
     
-          
+class Oferta(models.Model):
+    cod_producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    precio_oferta = models.IntegerField()
+    fecha_inicio = models.DateField(auto_created=True)
+    fecha_fin = models.DateField(auto_created=False)
+    
+    def __str__(self):
+        return str(self.cod_producto)
+    
+    def get_absolute_url(self):
+        return reverse('detalle_oferta', args=[str(self.pk)])
 
     
 

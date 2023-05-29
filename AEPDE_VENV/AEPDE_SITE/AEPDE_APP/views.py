@@ -1,7 +1,7 @@
-from django.http import HttpRequest ,HttpResponseRedirect
+from django.http import HttpRequest ,HttpResponseRedirect, JsonResponse
 from django.shortcuts import render,  redirect, get_object_or_404
-from .forms import formulario_agregar_producto,formulario_agregar_tarifa
-from .models import Producto, Productor, Favorito, Carrito ,ItemCarrito
+from .forms import formulario_agregar_producto,formulario_agregar_tarifa, formulario_crear_oferta
+from .models import Producto, Productor, Favorito, Carrito ,ItemCarrito, Oferta
 from .forms import NewUserForm
 from django.contrib.auth import login, authenticate,logout, get_user
 from django.contrib.auth.forms import AuthenticationForm
@@ -10,20 +10,22 @@ from django.db.models import Q
 from django.shortcuts import  redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Permission
-
+from datetime import datetime
+from django.db.models import Prefetch
 #Vista home
 
 def home(request):
-    add_tarifa_permission = Permission.objects.get(codename='add_tarifa')
+    productos_con_oferta = Producto.objects.prefetch_related(Prefetch('oferta_set', queryset=Oferta.objects.order_by('-fecha_inicio')))
     pr = Productor.objects.all()
     p = Producto.objects.all()
     a = request.user.id
     data = {
-        "add_tarifa_permission":add_tarifa_permission,
-        "producto": p,
+        "producto": productos_con_oferta,
         "productor":pr,
         "as":a 
     }
+    
+
     return render(request,"AEPDE_APP/home.html",data)
 
 def detalle_producto(request,id):
@@ -34,6 +36,7 @@ def detalle_producto(request,id):
     data = {"obj":detalle,"productor": productor,"sucursal":sucursal,}
     return render(request,'AEPDE_APP/detalle_producto.html',data)
 @login_required
+@permission_required('AEPDE_APP.add_producto',raise_exception=True)
 def agregar_productos(request):
     formulario = formulario_agregar_producto()
     data={"form":formulario}
@@ -137,3 +140,19 @@ def agregar_tarifa(request):
             messages.success(request, "Tarifa agregada correctamente")
             return redirect(to="home")
     return render(request,"AEPDE_APP/agregar_tarifa.html",data)
+
+@login_required
+@permission_required('AEPDE_APP.add_oferta', raise_exception=True)
+def crear_oferta(request, cod_producto):
+    producto = Producto.objects.get(codigo=cod_producto)
+    if request.method == 'POST':
+        form = formulario_crear_oferta(request.POST)
+        if form.is_valid():
+            oferta = form.save(commit=False)
+            oferta.cod_producto = producto
+            oferta.save()
+            # Optionally perform additional actions or redirect to a success page
+            return redirect(to='home')
+    else:
+        form = formulario_crear_oferta()
+    return render(request, 'AEPDE_APP/crear_oferta.html', {'form': form, 'producto': producto})

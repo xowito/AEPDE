@@ -12,4 +12,5 @@ urlpatterns = [
     path('agregar_favorito/<int:id>/', agregar_favorito, name='agregar_favorito'),
     path('agregar_al_carrito/', agregar_al_carrito, name='agregar_al_carrito'),
     path('agregar_tarifa',agregar_tarifa, name="agregar_tarifa"),
+    path('crear_oferta/<int:cod_producto>/', crear_oferta, name='crear_oferta'),
 ]

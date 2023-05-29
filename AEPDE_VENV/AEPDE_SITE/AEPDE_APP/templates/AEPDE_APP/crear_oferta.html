@@ -1,0 +1,25 @@
+{% extends 'AEPDE_APP/base.html' %}
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block header %}
+
+<div class="container mt-5">
+    <div class="card mt-5 ">
+        <div class="card-title d-flex justify-content-center">
+            <h1 class="">Agregar ofertas</h1>
+        </div>
+        <div class="card-body">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{form | crispy}}
+                <input class="btn btn-lg btn-success mt-5" type="submit" value="Enviar">
+            </form>
+        </div>
+    </div>
+</div>  
+{% endblock header %}
+
+
+
