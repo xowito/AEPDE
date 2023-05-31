@@ -1,0 +1,47 @@
+{% extends 'AEPDE_APP/base.html' %}
+{% load static %}
+
+
+{% block header %}
+        <div class="container">
+            <div class="row">
+                {% for x in carrito %}
+                <div class="col mt-4">
+                    <div class="card mb-2">
+                        <div class="card-title">
+                            <p></p>
+                        </div>
+                        <div class="card-body">
+                            <div class="fit-content">
+                                <img  class="mb-2" src="{{x.imagen.url}}" alt="Foto producto" height="150" width="200">
+                            </div>
+                            
+                                           
+                        </div>
+                           
+                    </div>
+            </div>
+            {% endfor %}
+                
+                    
+            </div>
+                
+        </div>
+{% endblock header %}
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

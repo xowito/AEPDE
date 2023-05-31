@@ -33,3 +33,8 @@ class formulario_crear_oferta(forms.ModelForm):
     class Meta:
         model = Oferta
         fields = '__all__'
+        
+class formulario_reclamo(forms.ModelForm):
+    class Meta:
+        model = Reclamo
+        fields = '__all__'

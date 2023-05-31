@@ -1,6 +1,6 @@
 from django.http import HttpRequest ,HttpResponseRedirect, JsonResponse
 from django.shortcuts import render,  redirect, get_object_or_404
-from .forms import formulario_agregar_producto,formulario_agregar_tarifa, formulario_crear_oferta
+from .forms import formulario_agregar_producto,formulario_agregar_tarifa, formulario_crear_oferta, formulario_reclamo
 from .models import Producto, Productor, Favorito, Carrito ,ItemCarrito, Oferta
 from .forms import NewUserForm
 from django.contrib.auth import login, authenticate,logout, get_user
@@ -156,3 +156,24 @@ def crear_oferta(request, cod_producto):
     else:
         form = formulario_crear_oferta()
     return render(request, 'AEPDE_APP/crear_oferta.html', {'form': form, 'producto': producto})
+
+def reclamo(request):
+    formulario = formulario_reclamo()
+    data={
+        'form':formulario
+    }
+    if request.method == 'POST':
+        formulario = formulario_reclamo(request.POST, request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, "Reclamo enviado correctamente")
+            return redirect(to="home")
+    return render(request,"AEPDE_APP/reclamo.html",data)
+
+
+def carrito(request):
+    carrito = ItemCarrito.objects.all()
+    data={
+        "carrito":carrito
+    }
+    return render(request,"AEPDE_APP/carrito.html",data)

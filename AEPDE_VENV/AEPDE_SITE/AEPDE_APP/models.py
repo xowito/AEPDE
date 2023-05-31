@@ -104,5 +104,11 @@ class Oferta(models.Model):
         return reverse('detalle_oferta', args=[str(self.pk)])
 
     
-
-     
+class Reclamo(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    asunto = models.CharField(max_length=200)
+    detalle = models.CharField(max_length=999)
+    imagen = models.ImageField(upload_to='images', blank=True)
+    
+    def __str__(self):
+        return self.asunto
